@@ -1,0 +1,1 @@
+export const API_FLASHCARD = "http://localhost:1010/v1";
