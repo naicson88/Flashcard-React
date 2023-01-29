@@ -1,20 +1,18 @@
 import { API_FLASHCARD } from "../constants";
 import axios from "axios";
+import interceptor from "./AxiosInterceptor"
 
-export default {
 
-    doLogin(){
-        axios.post(API_FLASHCARD+"/user/login", {}, {
-            auth: {
-                username: 'naicson10',
-                password: '12356' 
-            }
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch( (error) => {
-            throw error;
-        })
-    }
-}
+
+    export const doLogin = async (username, password) => {
+        return await axios.post(API_FLASHCARD+"/user/login", {}, {
+             //params: params,
+            // withCredentials: true,
+             auth: {
+                 username : username,
+                 password : password
+             }
+         })
+     }
+
+
