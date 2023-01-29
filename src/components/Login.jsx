@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from 'semantic-ui-react'
-import axios from "axios";
-import { API_FLASHCARD } from "./Constants";
+import LoginService from "../services/LoginService";
+import "../statics/css/LoginStyle.css";
 
 const Login = () => {
 
@@ -16,6 +16,12 @@ const Login = () => {
 
     const handleSubmit = (e) =>{
         e.preventDefault()
+        var {username, password} = document.forms[0]
+
+       const userData = LoginService.doLogin(); 
+
+       console.log(userData)
+
     }
 
     const errors = {
@@ -23,7 +29,7 @@ const Login = () => {
         password: "Invalid Password"
     }
 
-    return  (
+    const renderForm = (
         <div className="form">
             <form onSubmit={handleSubmit}>
                 <div className="input-container">
@@ -42,6 +48,15 @@ const Login = () => {
             </form>
         </div>
     );
+
+    return (
+        <div className="div-form">
+            <div className="login-form">
+                <div className="title"> Sign In</div>
+                {isSubmitted ? <div> User is successfully logged in </div> : renderForm}
+            </div>
+        </div>
+    )
 }
 
 export default Login

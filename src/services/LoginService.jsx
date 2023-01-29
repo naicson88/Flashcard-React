@@ -3,8 +3,13 @@ import axios from "axios";
 
 export default {
 
-    doLogin(user){
-        axios.post(API_FLASHCARD+"/user/login", user)
+    doLogin(){
+        axios.post(API_FLASHCARD+"/user/login", {}, {
+            auth: {
+                username: 'naicson10',
+                password: '12356' 
+            }
+        })
         .then((response) => {
             console.log(response);
         })
