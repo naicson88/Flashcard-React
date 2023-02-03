@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.div-title{
+    width: 100%;
+    border: solid thin silver;
+    border-radius: 5px;
+    background-color: #f8f9fd;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 2px;
+    font-family: 'Montserrat', sans-serif;
+}

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Button } from 'semantic-ui-react'
 //import LoginService from "../services/LoginService";
-import {doLogin} from "../services/LoginService";
-import "../statics/css/LoginStyle.css";
+import {doLogin} from "../services/pages/LoginService";
+import { useHistory } from 'react-router-dom';
+import "../statics/css/components/LoginStyle.css";
 
 const Login = () => {
 
     const [errorMessages, setErrorMessages] = useState({})
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [userData, setUserData] = useState({})
+    const history = useHistory();
 
     const renderErrorMessage = (name) => {
         name === errorMessages.name && (
@@ -21,13 +23,11 @@ const Login = () => {
         var {username, password} = document.forms[0]
 
        const userData = await doLogin(username.value, password.value);
-       debugger
        if(userData.status === 200){
-            console.log('ENTROOU')
             setIsSubmitted(true)
+           history.push('/home')
        }
            
-
     }
 
     const errors = {

@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { render } from "react-dom";
-import Login from './components/Login';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,15 +9,21 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage'
+import FolderPage from './pages/FolderPage';
+
 function App() {
   return (
     <Router>
-                <div className="container">
-                <Switch>
-                    <Route exact path="/"> <Login/> </Route>
-                    <Route path={"/:login"} exact component={Login} />
-                </Switch>
-                </div>       
+        <div className="container">
+          <Switch>
+              <Route  path="/" exact  component={LoginPage} />
+              <Route path="/login" exact component={LoginPage} />
+              <Route path="/home" component={HomePage} /> 
+              <Route path="/folder" component={FolderPage} /> 
+          </Switch>
+        </div>       
      </Router>
   );
 }

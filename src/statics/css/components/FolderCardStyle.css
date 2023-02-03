@@ -1,0 +1,35 @@
+.folder-card {
+    width: 220px;
+    height: 210px;
+    border: solid thin silver;
+    border-radius: 5px;
+    padding: 2px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.folder-card  span {
+    margin-top: 5px;
+    color: #0095FF;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+   
+}
+
+.folder-card  span:hover {
+    color: #006eff;
+    text-decoration: underline
+
+}
+
+
+.folder-card  img:hover {
+    cursor: pointer;
+}
+
+i {
+    cursor: pointer;
+}

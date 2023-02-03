@@ -1,6 +1,6 @@
-import { API_FLASHCARD } from "../constants";
+import { API_FLASHCARD } from "../../constants";
 import axios from "axios";
-import interceptor from "./AxiosInterceptor"
+import interceptor from "../AxiosInterceptor"
 
 
 

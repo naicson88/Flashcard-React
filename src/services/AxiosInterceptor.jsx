@@ -1,15 +1,17 @@
 import axios from "axios";
 import { API_FLASHCARD } from "../constants";
 
-const api = axios.create({
+const instance = axios.create({
     baseURL: API_FLASHCARD,
     timeout: 30000,
+    //withCredentials: true
   });
   
-  api.interceptors.request.use(
-    async (config) => {
-      const basicAuthCredentials = btoa("naicson10" + ":" + "123456");
-      config.headers.common["Authorization"] = "Basic " + basicAuthCredentials;
+  instance.interceptors.request.use (
+    config => {
+      console.log("INTERCEPTOR")
+    //  const basicAuthCredentials = btoa("naicson10" + ":" + "123456");
+      config.headers["Authorization"] = "Basic bmFpY3NvbjEwOjEyMzQ1Ng"
       return config;
     },
     (error) => {
@@ -17,4 +19,4 @@ const api = axios.create({
     }
   );
   
-  export default api;
+  export default instance;
