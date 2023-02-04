@@ -5,3 +5,10 @@ import interceptor from "../AxiosInterceptor"
         return await interceptor.get("/folder/list-folder")
      }
 
+     export const saveNewFolder = async (folderName, description) => {
+         const f = {
+                    name: folderName,
+                    description: description
+                   }
+         return await interceptor.post("/folder/create-folder", f);
+     }

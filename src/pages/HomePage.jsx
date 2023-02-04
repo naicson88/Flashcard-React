@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Title from "../components/Title";
 import './../statics/css/pages/HomePageStyle.css'
+import SuccessToastr from "../components/SuccessToastr";
 const HomePage = () => {
 
     return (
@@ -9,7 +10,7 @@ const HomePage = () => {
             <Navbar />
         
             <div className="content">
-             
+                <SuccessToastr />
                 <Title title={"Folder Collections"} />
             </div>
         </div>

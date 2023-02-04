@@ -17,3 +17,13 @@
     margin-top: 20px;
    
 }
+
+.hidden {
+    display: none;
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
