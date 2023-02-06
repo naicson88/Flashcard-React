@@ -8,22 +8,30 @@
     flex-flow: column;
     align-items: center;
     margin-bottom: 20px;
+
+
 }
 
-.folder-card  span {
+.folder-card  h5 {
     margin-top: 5px;
     color: #0095FF;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-   
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;  
+    overflow: hidden;
+    text-align: center;
+    padding: 2px; 
 }
 
-.folder-card  span:hover {
+.folder-card  h5:hover {
     color: #006eff;
     text-decoration: underline
 
 }
+
 
 
 .folder-card  img:hover {

@@ -9,7 +9,6 @@ const instance = axios.create({
   
   instance.interceptors.request.use (
     config => {
-      console.log("INTERCEPTOR")
     //  const basicAuthCredentials = btoa("naicson10" + ":" + "123456");
       config.headers["Authorization"] = "Basic bmFpY3NvbjEwOjEyMzQ1Ng"
       return config;
