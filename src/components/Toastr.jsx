@@ -6,12 +6,11 @@ const SuccessToastr = ({title, message}) => {
    
           <Message positive>
             <Message.Header>{title}</Message.Header>
-            <p>
+             <p>
                 {message}
             </p>
-        </Message>
+          </Message>
 
- )
- 
+  )
 } 
 export default SuccessToastr

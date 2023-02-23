@@ -15,5 +15,9 @@ import interceptor from "../AxiosInterceptor"
      }
 
      export const deleteFolder = async (folderId) => {
-        return await interceptor.delete("/folder/remove-folder?folderId="+folderId)
+        return await interceptor.delete("/folder/remove-folder?folderId="+folderId);
+     }
+
+     export const editFolder = async (folder) => {
+         return await interceptor.put("/folder/edit-folder", folder);
      }
