@@ -5,15 +5,12 @@ import {getAllFolders, saveNewFolder, deleteFolder, editFolder} from "../service
 import  FolderCard from "../components/FolderCard";
 import Paginations from "../components/Paginations"
 import FullScreenLoader from "../components/FullScreenLoader"
-
 //import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import {Button, Container, Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import {Button, Container, Loader, Popup } from 'semantic-ui-react'
 import './../statics/css/pages/FolderPageStyle.css'
 import SuccessToastr from "../components/Toastr.jsx";
-import { Message } from 'semantic-ui-react'
-
 
 const FolderPage = () => {
     const [show, setShow] = useState(false);
@@ -25,7 +22,8 @@ const FolderPage = () => {
     const [loaderActive, setLoaderActive] = useState(false)
     const [fullScreenLoader, setFullScreenLoader] = useState(false);
     const [saveShow, setSaveShow] = useState('form');
-    
+
+
     const handleClose = () => { setShow(false); setShowEdit(false);}
     const handleShow = () =>  setShow(true);
 
@@ -115,23 +113,29 @@ const FolderPage = () => {
         editFolderObj.description = desc.value;
 
         editFolder(editFolderObj).then(response => {
-            setShowSuccess(true);
+            setShowEdit(false)
+            setShowSuccess(true);      
             setTimeout(() => { setShowSuccess(false)}, 4000);   
             getFolderList();
+           
         }).catch((error) =>{
             alert('Cannot edit folder');
             console.log(error);
         })
     } 
 
+    const PopupExample = () => (
+        <Popup content='Add users to your feed' trigger={<Button icon='add' />} basic on={'hover'}/>
+      )
+
     return (
         <div>
              <Navbar/>
-            
+
             <Container className="content">
               
                 <Title title={"Folder Collections"} />
-                
+               
                 { fullScreenLoader && (<FullScreenLoader/>)}
             
                 { showSuccess && (
@@ -151,7 +155,7 @@ const FolderPage = () => {
                 <div className="cards"> 
                      <Loader active={loaderActive} inline='centered' content="Loading..."/>
 
-                    {  folders.map((folder, index) => <FolderCard key={index} folder={folder} removeFolder={removeFolder} editFolder={editFolderBtn}/> ) }
+                    {  folders.map((folder, index) => <FolderCard key={index} folder={folder} removeFolder={removeFolder} editFolder={editFolderBtn} /> ) }
 
                 </div>              
             </Container>
@@ -212,7 +216,7 @@ const FolderPage = () => {
                     )}
                     
                 </Modal.Body>
-                <Modal.Footer>a
+                <Modal.Footer>
                     <Button color="red" onClick={handleClose}>
                         Close
                     </Button>

@@ -30,11 +30,6 @@ const Login = () => {
            
     }
 
-    const errors = {
-        username: "Invalid Username",
-        password: "Invalid Password"
-    }
-
     const renderForm = (
         <div className="form">
             <form onSubmit={handleSubmit}>

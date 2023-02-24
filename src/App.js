@@ -12,6 +12,7 @@ import {
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage'
 import FolderPage from './pages/FolderPage';
+import FolderDetails from './pages/FolderDetails';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
               <Route  path="/" exact  component={LoginPage} />
               <Route path="/login" exact component={LoginPage} />
               <Route path="/home" component={HomePage} /> 
-              <Route path="/folder" component={FolderPage} /> 
+              <Route path="/folder" exact component={FolderPage} /> 
+              <Route path="/folder/details" component={FolderDetails} /> 
           </Switch>
         </div>       
      </Router>

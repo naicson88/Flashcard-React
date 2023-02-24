@@ -23,7 +23,7 @@
     width: 100%;  
     overflow: hidden;
     text-align: center;
-    padding: 2px; 
+    padding-top: 5px; 
 }
 
 .folder-card  h5:hover {
