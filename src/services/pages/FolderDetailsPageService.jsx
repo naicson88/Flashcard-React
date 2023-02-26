@@ -4,6 +4,10 @@ import interceptor from "../AxiosInterceptor"
         return await interceptor.get("/folder/find-by-id?folderId="+id);
      }
 
+     export const saveSubject = async (subject) => {
+      return await interceptor.post("/subject/create-subject", subject);
+     }
+
     //  export const saveNewFolder = async (folderName, description) => {
     //      const f = {
     //                 name: folderName,
