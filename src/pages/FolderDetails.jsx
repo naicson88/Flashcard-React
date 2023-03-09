@@ -41,7 +41,8 @@ const FolderDetails = () => {
         'description': desc.value,
         'folder': {
           'id': folderObj.id
-        }
+        },
+        'listCards' : []
       }
       saveSubject(newSubjectObj).then( response => {
           console.log(response)

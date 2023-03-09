@@ -1,0 +1,10 @@
+.div-list{
+    margin: 10px 0 5px 0;
+}
+
+.item-question{
+   
+    width: 90% !important;
+    margin-left: 8%;
+    cursor: pointer;
+}
