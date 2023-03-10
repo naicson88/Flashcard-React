@@ -7,10 +7,13 @@ import './../statics/css/pages/FolderDetailsPageStyle.css'
 import  ItemSubject from "../components/ItemSubject";
 import Modal from 'react-bootstrap/Modal';
 import FullScreenLoader from "../components/FullScreenLoader"
+import CardQuestion from "../components/CardQuestion"
 
 const FolderDetails = () => {
     const searchParams = new URLSearchParams(document.location.search)
     const [showNewSubject, setShowNewSubject] = useState(false);
+    const [showCardModal, setShowCardModal] = useState(false);
+    
     const [folderId, setFolderId] = useState('');
     const [loaderActive, setLoaderActive] = useState(false)
     const [folderObj, setFolderObj] = useState({});
@@ -20,6 +23,7 @@ const FolderDetails = () => {
 
     const handleClose = () => { setShowNewSubject(false);}
     const handleShowNewSubject = () =>  setShowNewSubject(true);
+    const handleShowCardModal = () => setShowCardModal(true);
 
     useEffect(() => {
         getFolderDetails()
@@ -68,8 +72,9 @@ const FolderDetails = () => {
                          </div>
                         
                          <div className="subjects-list">
+                            <button onClick={handleShowCardModal}> open modal</button>
                             {
-                              folderObj['subjects']?.map((subject, index) =>  <ItemSubject key={index} subject={subject} subjectIndex={index}/> )
+                              folderObj['subjects']?.map((subject, index) =>  <ItemSubject key={index} subject={subject} subjectIndex={index} /> )
                             }                      
                          </div>                 
                   </Container>
@@ -107,6 +112,22 @@ const FolderDetails = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+              {/* MODAL CARD QUESTION */}
+            <Modal show={showCardModal} onHide={handleClose} size={"lg"}>
+                <Modal.Header closeButton>
+                     <Modal.Title>Card Question</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <CardQuestion />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button color="red" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             </div>
     )
 } 

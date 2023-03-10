@@ -11,9 +11,6 @@ const ItemCard = ({card}) => {
             return 'list-group-item-danger';
     }
 
-    const showCard = (card) => {
-        console.log(card)
-    }
     return(
         <div className="div-list">
             <ul className="list-group">
