@@ -2,6 +2,8 @@ import  { React, useState, useEffect, } from "react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Form, Button } from 'semantic-ui-react'
+import {createQuestion} from "../services/components/CardQuestionService"
+
 
 const options = [
     { key: 'm', text: 'Male', value: 'male' },
@@ -9,25 +11,44 @@ const options = [
     { key: 'o', text: 'Other', value: 'other' },
   ]
 
-const CardQuestion = () => {
+
+
+const CardQuestion = ({subjectId}) => {
     const [state, setState] = useState({})
     const [editorData, setEditorData]= useState('');
     const [question, setQuestion] = useState('')
     const [showError, setShowError] = useState(false)
 
-    const handleSubmit = () => {
+    const questionCard = () => {
         const questionCard = {
             question: question,
-            answer: editorData
+            answer: editorData,
+            subject: {id: subjectId}
         }
+    
+        return questionCard;
+     } 
 
-        if(questionCard.question == '' || questionCard.answer == ''){
+    const handleSubmit = () => {
+        
+        let questionObj = questionCard();
+
+        if(questionObj.question == '' || questionObj.answer == '' || questionObj.answer == 'Put your answer here!!'){
             setShowError(true)
             return false;
         }
-            
 
-        console.log(questionCard)
+       //console.log(questionObj)
+       createNewQuestion(questionObj);
+    }
+
+    const createNewQuestion = (questionObj) => {
+
+        createQuestion(questionObj).then(response => {          
+            console.log(response);
+          }).catch((error) => {
+            console.log(error);
+        }) ;;
     }
 
     const handleChange = (e) => {
@@ -59,7 +80,8 @@ const CardQuestion = () => {
                         <label htmlFor=""> <b>Answer</b> </label>    
                         <CKEditor
                             editor={ ClassicEditor }
-                            data="Put your answer here!!"
+                            data=''
+                          
                             onReady={ editor => {
                                 // You can store the "editor" and use when it is needed.
                                 console.log( 'Editor is ready to use!', editor );

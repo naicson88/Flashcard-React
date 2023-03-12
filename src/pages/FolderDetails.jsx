@@ -7,23 +7,26 @@ import './../statics/css/pages/FolderDetailsPageStyle.css'
 import  ItemSubject from "../components/ItemSubject";
 import Modal from 'react-bootstrap/Modal';
 import FullScreenLoader from "../components/FullScreenLoader"
-import CardQuestion from "../components/CardQuestion"
+import SuccessToastr from "../components/Toastr.jsx";
+// import CardQuestion from "../components/CardQuestion"
 
 const FolderDetails = () => {
     const searchParams = new URLSearchParams(document.location.search)
     const [showNewSubject, setShowNewSubject] = useState(false);
-    const [showCardModal, setShowCardModal] = useState(false);
+    // const [showCardModal, setShowCardModal] = useState(false);
     
     const [folderId, setFolderId] = useState('');
     const [loaderActive, setLoaderActive] = useState(false)
     const [folderObj, setFolderObj] = useState({});
     const [fullScreenLoader, setFullScreenLoader] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('')
 
     const [saveShow, setSaveShow] = useState('form');
 
     const handleClose = () => { setShowNewSubject(false);}
     const handleShowNewSubject = () =>  setShowNewSubject(true);
-    const handleShowCardModal = () => setShowCardModal(true);
+    // const handleShowCardModal = () => setShowCardModal(true);
 
     useEffect(() => {
         getFolderDetails()
@@ -36,7 +39,7 @@ const FolderDetails = () => {
         })
     }  
 
-    const saveNewSubject =() => {
+    const saveNewSubject = () => {
       setFullScreenLoader(true)
       setShowNewSubject(false)
       var {fname, desc} = document.forms[0] 
@@ -51,9 +54,21 @@ const FolderDetails = () => {
       saveSubject(newSubjectObj).then( response => {
           console.log(response)
           setFullScreenLoader(false)
+          setSuccessMsg("Subject was created successfully")
+          showSuccessDiv();
+
       }, error => {
+          console.log(error)
           setFullScreenLoader(false)
       })
+    }
+
+    const showSuccessDiv = () => {
+        getFolderDetails();
+        setShowSuccess(true)
+        setTimeout(() => {
+            setShowSuccess(false)
+        }, "4000");
     }
 
     return (
@@ -70,9 +85,14 @@ const FolderDetails = () => {
                          <div className="subject-btn-div">
                             <Button primary onClick={handleShowNewSubject}>New Subject</Button>
                          </div>
+
+                            { showSuccess && (
+                                <div className="success-div">
+                                    <SuccessToastr title={"Success!!"} message={successMsg} />
+                                </div>          
+                            )}
                         
                          <div className="subjects-list">
-                            <button onClick={handleShowCardModal}> open modal</button>
                             {
                               folderObj['subjects']?.map((subject, index) =>  <ItemSubject key={index} subject={subject} subjectIndex={index} /> )
                             }                      
@@ -114,19 +134,19 @@ const FolderDetails = () => {
             </Modal>
 
               {/* MODAL CARD QUESTION */}
-            <Modal show={showCardModal} onHide={handleClose} size={"lg"}>
+            {/* <Modal show={showCardModal} onHide={handleClose} size={"lg"}>
                 <Modal.Header closeButton>
                      <Modal.Title>Card Question</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CardQuestion />
+                    <CardQuestion subjectId={searchParams.get("fd")}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button color="red" onClick={handleClose}>
                         Close
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
 
             </div>
     )

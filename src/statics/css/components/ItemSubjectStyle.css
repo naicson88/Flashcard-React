@@ -4,3 +4,35 @@
     padding: 15px;
     border-radius: 5px;
 }
+
+.div-color-label{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.div-color{
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.div-color span {
+    opacity: 0;
+}
+
+.div-description{
+    display: flex;
+    justify-content: right;
+    margin-bottom: 15px;
+}
+.div-icon-trash{
+    padding-top: 3px;
+    padding-left: 2px;
+    border: solid thin silver;
+    border-radius: 2px;
+    background-color: white;
+}
+
+
