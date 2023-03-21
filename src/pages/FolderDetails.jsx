@@ -7,7 +7,8 @@ import './../statics/css/pages/FolderDetailsPageStyle.css'
 import  ItemSubject from "../components/ItemSubject";
 import Modal from 'react-bootstrap/Modal';
 import FullScreenLoader from "../components/FullScreenLoader"
-import SuccessToastr from "../components/Toastr.jsx";
+import Toastr from "../components/Toastr.jsx";
+import {createToastrObject} from './../utils/GeneralFunctions'
 // import CardQuestion from "../components/CardQuestion"
 
 const FolderDetails = () => {
@@ -19,9 +20,8 @@ const FolderDetails = () => {
     const [loaderActive, setLoaderActive] = useState(false)
     const [folderObj, setFolderObj] = useState({});
     const [fullScreenLoader, setFullScreenLoader] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [successMsg, setSuccessMsg] = useState('')
-
+    const [showToastr, setShowToastr] = useState(false);
+    const [toastrObject, setToastrObj] = useState({})
     const [saveShow, setSaveShow] = useState('form');
 
     const handleClose = () => { setShowNewSubject(false);}
@@ -33,9 +33,13 @@ const FolderDetails = () => {
       }, []);
 
     const getFolderDetails = () => {
+        setFullScreenLoader(true)
         getFolderById(searchParams.get("fd")).then(response => {
           console.log(response);
           setFolderObj(response.data)
+          setFullScreenLoader(false)
+        }, error => {
+            setFullScreenLoader(false)
         })
     }  
 
@@ -51,24 +55,25 @@ const FolderDetails = () => {
         },
         'listCards' : []
       }
+
       saveSubject(newSubjectObj).then( response => {
-          console.log(response)
+          //console.log(response)
           setFullScreenLoader(false)
-          setSuccessMsg("Subject was created successfully")
-          showSuccessDiv();
+          showToastrDiv('Success!', 'Subject was created!', 'positive'); 
 
       }, error => {
-          console.log(error)
+          showToastrDiv('Error!', 'Something bad happened!', 'negative'); 
           setFullScreenLoader(false)
       })
     }
 
-    const showSuccessDiv = () => {
-        getFolderDetails();
-        setShowSuccess(true)
+    const showToastrDiv = (title, msg, status) => {
+        setToastrObj(createToastrObject(title, msg, status));  
+        getFolderDetails();    
+        setShowToastr(true)
         setTimeout(() => {
-            setShowSuccess(false)
-        }, "4000");
+            setShowToastr(false)
+        }, "5000");
     }
 
     return (
@@ -86,12 +91,12 @@ const FolderDetails = () => {
                             <Button primary onClick={handleShowNewSubject}>New Subject</Button>
                          </div>
 
-                            { showSuccess && (
-                                <div className="success-div">
-                                    <SuccessToastr title={"Success!!"} message={successMsg} />
-                                </div>          
+                            { showToastr && (
+                                <div className="toastr-div" style={{margin: '10px 0 10px 0'}}>
+                                    <Toastr toastrObj={toastrObject} />
+                                </div>                   
                             )}
-                        
+
                          <div className="subjects-list">
                             {
                               folderObj['subjects']?.map((subject, index) =>  <ItemSubject key={index} subject={subject} subjectIndex={index} /> )

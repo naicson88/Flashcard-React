@@ -5,12 +5,11 @@ import {getAllFolders, saveNewFolder, deleteFolder, editFolder} from "../service
 import  FolderCard from "../components/FolderCard";
 import Paginations from "../components/Paginations"
 import FullScreenLoader from "../components/FullScreenLoader"
-//import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 import {Button, Container, Loader, Popup } from 'semantic-ui-react'
 import './../statics/css/pages/FolderPageStyle.css'
-import SuccessToastr from "../components/Toastr.jsx";
+import Toastr from "../components/Toastr.jsx";
+import {createToastrObject} from './../utils/GeneralFunctions'
 
 const FolderPage = () => {
     const [show, setShow] = useState(false);
@@ -22,24 +21,10 @@ const FolderPage = () => {
     const [loaderActive, setLoaderActive] = useState(false)
     const [fullScreenLoader, setFullScreenLoader] = useState(false);
     const [saveShow, setSaveShow] = useState('form');
-
+    const [toastrObject, setToastrObj] = useState({})
 
     const handleClose = () => { setShow(false); setShowEdit(false);}
     const handleShow = () =>  setShow(true);
-
-
-
-    // // useEffect(() => { 
-    //     setLoaderActive(true)
-    //     getAllFolders(null).then(response => {
-    //       setFolders(response.data.content);
-    //       setLoaderActive(false)
-    //       setPageData(response.data)
-    //     }).catch((error) => {
-    //         console.log(error)
-    //         setLoaderActive(false)
-    //     }) ; 
-    // // }, []);
 
     useEffect(() => {
         getFolderList();
@@ -65,11 +50,14 @@ const FolderPage = () => {
         setShow(false)
         setSaveShow('form')
         if(data.status === 201){
+            setToastrObj(createToastrObject('Success!', 'Your Folder was registered successfully', 'positive'));  
             setShowSuccess(true);
-            setTimeout(() => { setShowSuccess(false)}, 4000);   
+            setTimeout(() => { 
+                setShowSuccess(false)            
+            }, 4000);   
             getFolderList();
         } else {
-            alert("Sorry, can't save Folder now")
+            setToastrObj(createToastrObject('Error!', 'Something bad happened!', 'negative'));  
         }
     }
 
@@ -140,8 +128,8 @@ const FolderPage = () => {
             
                 { showSuccess && (
                     <div className="success-div">
-                        <SuccessToastr title={"Success!!"} message={"Your Folder was registered successfully"} />
-                    </div>                   
+                        <Toastr toastrObj={toastrObject} />
+                    </div>          
                 )}
                 
                 <div className="div-button">

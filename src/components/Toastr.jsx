@@ -1,16 +1,39 @@
 import React from "react";
 import { Message } from 'semantic-ui-react'
 
-const SuccessToastr = ({title, message}) => {
+const Toastr = ({toastrObj}) => {
  return (
-   
-          <Message positive>
-            <Message.Header>{title}</Message.Header>
-             <p>
-                {message}
-            </p>
-          </Message>
+
+    <>
+        {
+          toastrObj.status == 'positive' && 
+            <div>
+              <Message positive>
+                  <Message.Header>{toastrObj.title}</Message.Header>
+                  <p>
+                      {toastrObj.msg}
+                  </p>
+              </Message>
+            </div>
+        }
+
+        {
+          toastrObj.status == 'negative' && 
+            <div>
+              <Message negative>
+                  <Message.Header>{toastrObj.title}</Message.Header>
+                  <p>
+                      {toastrObj.msg}
+                  </p>
+              </Message>
+            </div>
+         }
+    </>
+      
+       
+    
+          
 
   )
 } 
-export default SuccessToastr
+export default Toastr

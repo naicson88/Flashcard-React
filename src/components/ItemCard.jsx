@@ -1,7 +1,17 @@
-import  { React } from "react"; 
+import React, { useState} from 'react'
 import "../statics/css/components/ItemCardStyle.css";
+import Modal from 'react-bootstrap/Modal';
+import {Button, Icon} from 'semantic-ui-react'
+import CardQuestion from "./CardQuestion"
+
+
+
 const ItemCard = ({card}) => {
-    
+    const [showCardModal, setShowCardModal] = useState(false);
+
+    const handleShowCardModal = () => setShowCardModal(true);
+    const handleClose = () => { setShowCardModal(false);}
+
     const setColorResponse = (resp) => {
         if(resp >= 80)
             return 'list-group-item-success';
@@ -17,7 +27,7 @@ const ItemCard = ({card}) => {
         if(card != null) {
             return (
                 <ul className="list-group">
-                 <li className={`list-group-item list-group-item-action ${setColorResponse(card.percentageAssertiveness)} item-question`}>{card.question}</li>          
+                 <li onClick={handleShowCardModal} className={`list-group-item list-group-item-action ${setColorResponse(card.percentageAssertiveness)} item-question`} >{card.question}</li>          
                 </ul>
             )
         }
@@ -26,7 +36,22 @@ const ItemCard = ({card}) => {
     return(
         <div className="div-list">
             {verifyCard()}
-        </div>       
+
+            <Modal show={showCardModal} onHide={handleClose} size={"lg"}>
+              <Modal.Header closeButton>
+                  <Modal.Title>Card Question</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                  <CardQuestion card={card}/>
+              </Modal.Body>
+              <Modal.Footer>
+                  <Button color="red" onClick={handleClose}>
+                      Close
+                  </Button>
+              </Modal.Footer>
+          </Modal>     
+        </div>  
+              
     )
 }
 

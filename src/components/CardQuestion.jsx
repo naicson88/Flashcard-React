@@ -11,13 +11,18 @@ const options = [
     { key: 'o', text: 'Other', value: 'other' },
   ]
 
-
-
-const CardQuestion = ({subjectId}) => {
+const CardQuestion = ({subjectId, card}) => {
     const [state, setState] = useState({})
     const [editorData, setEditorData]= useState('');
     const [question, setQuestion] = useState('')
     const [showError, setShowError] = useState(false)
+
+     useEffect(() => {
+        if(card != null && card.id != undefined){
+                setQuestion(card.question);
+                setEditorData(card.answer);
+        }
+      }, []);
 
     const questionCard = () => {
         const questionCard = {
@@ -51,10 +56,9 @@ const CardQuestion = ({subjectId}) => {
         }) ;;
     }
 
-    const handleChange = (e) => {
-       // console.log(e.target.value)
-       setShowError(false)
-       setQuestion(e.target.value)
+    const handleChangeQuestion = (e) => {
+        setShowError(false)
+        setQuestion(e.target.value)
     }
   
     return(
@@ -73,14 +77,14 @@ const CardQuestion = ({subjectId}) => {
                 </style>
                <Form>
                     <Form.Group widths='equal'>
-                    <Form.Input fluid label='Question' placeholder='Make your question here' maxLength="120" onChange={handleChange}/>
+                        <Form.Input fluid label='Question' placeholder='Make your question here' maxLength="120" onChange={handleChangeQuestion} value={question}/>
                     </Form.Group>
                 
                         <div className="div-ck">
                         <label htmlFor=""> <b>Answer</b> </label>    
                         <CKEditor
                             editor={ ClassicEditor }
-                            data=''
+                            data={editorData}
                           
                             onReady={ editor => {
                                 // You can store the "editor" and use when it is needed.
@@ -99,6 +103,12 @@ const CardQuestion = ({subjectId}) => {
                             //     console.log( 'Focus.', editor );
                             // } }
                         />  
+                            {
+                                card != null && card.id != undefined &&
+                                <div style={{width:'100%', display: 'flex', justifyContent: 'center'}} >
+                                     <small style={{color:'blue'}}> <b>No field can be empty!!</b></small>
+                                </div>
+                            }
                             {
                                 showError &&
                                     <div style={{width:'100%', display: 'flex', justifyContent: 'center'}} >

@@ -86,7 +86,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
 
             <div className='subject-body'>
               <div className='div-description'>      
-                <Button inverted color='orange'  onClick={handleShowCardModal}>New Question</Button> 
+                <Button inverted color='orange' onClick={handleShowCardModal}>New Question</Button> 
                 <div onClick={removeSubject} className="div-icon-trash">
                   <Icon disabled name='trash alternate' size='big' color='red' title="Delete Subject" />   
                 </div>
@@ -109,7 +109,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
               <Modal.Title>Card Question</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <CardQuestion subjectId={subject.id}/>
+              <CardQuestion subjectId={subject.id} card={null}/>
           </Modal.Body>
           <Modal.Footer>
               <Button color="red" onClick={handleClose}>
