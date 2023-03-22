@@ -3,6 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Form, Button } from 'semantic-ui-react'
 import {createQuestion} from "../services/components/CardQuestionService"
+import "../statics/css/components/CardQuestionStyle.css";
 
 
 const options = [
@@ -11,7 +12,7 @@ const options = [
     { key: 'o', text: 'Other', value: 'other' },
   ]
 
-const CardQuestion = ({subjectId, card}) => {
+const CardQuestion = ({subjectId, card, handleNewQuestion}) => {
     const [state, setState] = useState({})
     const [editorData, setEditorData]= useState('');
     const [question, setQuestion] = useState('')
@@ -48,11 +49,12 @@ const CardQuestion = ({subjectId, card}) => {
     }
 
     const createNewQuestion = (questionObj) => {
-
         createQuestion(questionObj).then(response => {          
-            console.log(response);
+          //  console.log(response);
+            handleNewQuestion('success');
           }).catch((error) => {
-            console.log(error);
+            handleNewQuestion('error');
+          //  console.log(error);
         }) ;;
     }
 
@@ -104,12 +106,6 @@ const CardQuestion = ({subjectId, card}) => {
                             // } }
                         />  
                             {
-                                card != null && card.id != undefined &&
-                                <div style={{width:'100%', display: 'flex', justifyContent: 'center'}} >
-                                     <small style={{color:'blue'}}> <b>No field can be empty!!</b></small>
-                                </div>
-                            }
-                            {
                                 showError &&
                                     <div style={{width:'100%', display: 'flex', justifyContent: 'center'}} >
                                         <small style={{color:'red'}}> <b>No field can be empty!!</b></small>
@@ -119,6 +115,11 @@ const CardQuestion = ({subjectId, card}) => {
                         </div>
                         
                     <Button primary onClick={handleSubmit}>Submit</Button>
+                    {
+                        card != null && card.id != undefined && (
+                            <Button secondary onClick={handleSubmit} >Delete</Button>
+                        )             
+                    }
                    
                 </Form>
                 

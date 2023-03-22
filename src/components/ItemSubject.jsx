@@ -1,4 +1,4 @@
-import React, { Component ,useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 //import { Accordion, Icon } from 'semantic-ui-react'
 import Accordion from 'react-bootstrap/Accordion';
@@ -9,15 +9,22 @@ import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import CardQuestion from "./CardQuestion"
-import {deleteSubject} from "../services/components/ItemSubjectService"
+import {deleteSubject, getById} from "../services/components/ItemSubjectService"
+import FullScreenLoader from "../components/FullScreenLoader"
 
 const  ItemSubject = ({subject, subjectIndex}) => {
   const [open, setOpen] = useState(false);
   const [showCardModal, setShowCardModal] = useState(false);
+  const [fullScreenLoader, setFullScreenLoader] = useState(false);
+  const [cardQuestions, setCardQuestions] = useState([])
 
   const handleShowCardModal = () => setShowCardModal(true);
 
   const handleClose = () => { setShowCardModal(false);}
+
+  useEffect(()=>{
+    setCardQuestions(subject.listCards)
+	}, [])
 
   const removeSubject = () => {
       if(window.confirm("Are SURE you want delete entire Subject?") === true) {
@@ -27,9 +34,41 @@ const  ItemSubject = ({subject, subjectIndex}) => {
       }
   }
 
+  const handleNewQuestion = (status) => {
+     setFullScreenLoader(true);
+     if(status === 'success'){
+      handleClose();  
+      getSubjectById();
+      setFullScreenLoader(false);
+
+     } else {
+        handleClose();  
+        setFullScreenLoader(false);
+     }
+  }
+
+  const getSubjectById = () => {
+      getById(subject.id).then(response => {
+        subject.listCards = [];
+        subject.listCards = response.data.listCards
+        setCardQuestions(subject.listCards)
+        iterateListQuestions();
+      })
+    }
+
+   const iterateListQuestions = () => {
+     
+        return (
+            <div>
+            {
+                cardQuestions.map((item , index) => <ItemCard key={index} card={item} ></ItemCard>)
+            }                   
+          </div>
+        )
+   } 
   return(
   <>  
-
+      { fullScreenLoader && (<FullScreenLoader/>)}
       <Accordion defaultActiveKey={['0']} alwaysOpen >
         <Accordion.Item eventKey={subjectIndex} >
           <Accordion.Header > <b>{subject.name}</b> </Accordion.Header>
@@ -92,13 +131,12 @@ const  ItemSubject = ({subject, subjectIndex}) => {
                 </div>
                  
               </div>            
-
-                <div>
+              { iterateListQuestions() }
+                {/* <div>
                   {
                       subject['listCards'].map((item , index) => <ItemCard key={index} card={item} ></ItemCard>)
-                  }
-                    
-                </div>
+                  }                   
+                </div> */}
             </div>
           </Accordion.Body>
         </Accordion.Item>
@@ -109,7 +147,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
               <Modal.Title>Card Question</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <CardQuestion subjectId={subject.id} card={null}/>
+              <CardQuestion subjectId={subject.id} card={null} handleNewQuestion={handleNewQuestion}/>
           </Modal.Body>
           <Modal.Footer>
               <Button color="red" onClick={handleClose}>

@@ -10,7 +10,7 @@ const HomePage = () => {
             <Navbar />
         
             <div className="content">
-                <Toastr />
+                
                 <Title title={"Folder Collections"} />
             </div>
         </div>
