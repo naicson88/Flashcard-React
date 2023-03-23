@@ -14,10 +14,6 @@ import {createToastrObject} from './../utils/GeneralFunctions'
 const FolderDetails = () => {
     const searchParams = new URLSearchParams(document.location.search)
     const [showNewSubject, setShowNewSubject] = useState(false);
-    // const [showCardModal, setShowCardModal] = useState(false);
-    
-    const [folderId, setFolderId] = useState('');
-    const [loaderActive, setLoaderActive] = useState(false)
     const [folderObj, setFolderObj] = useState({});
     const [fullScreenLoader, setFullScreenLoader] = useState(false);
     const [showToastr, setShowToastr] = useState(false);
@@ -57,7 +53,6 @@ const FolderDetails = () => {
       }
 
       saveSubject(newSubjectObj).then( response => {
-          //console.log(response)
           setFullScreenLoader(false)
           showToastrDiv('Success!', 'Subject was created!', 'positive'); 
 

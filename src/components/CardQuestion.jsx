@@ -2,24 +2,23 @@ import  { React, useState, useEffect, } from "react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Form, Button } from 'semantic-ui-react'
-import {createQuestion} from "../services/components/CardQuestionService"
+import {createQuestion, deleteQuestion} from "../services/components/CardQuestionService"
 import "../statics/css/components/CardQuestionStyle.css";
 
 
-const options = [
-    { key: 'm', text: 'Male', value: 'male' },
-    { key: 'f', text: 'Female', value: 'female' },
-    { key: 'o', text: 'Other', value: 'other' },
-  ]
+// const options = [
+//     { key: 'm', text: 'Male', value: 'male' },
+//     { key: 'f', text: 'Female', value: 'female' },
+//     { key: 'o', text: 'Other', value: 'other' },
+//   ]
 
 const CardQuestion = ({subjectId, card, handleNewQuestion}) => {
-    const [state, setState] = useState({})
     const [editorData, setEditorData]= useState('');
     const [question, setQuestion] = useState('')
     const [showError, setShowError] = useState(false)
 
      useEffect(() => {
-        if(card != null && card.id != undefined){
+        if(card !== null && card.id !== undefined){
                 setQuestion(card.question);
                 setEditorData(card.answer);
         }
@@ -39,28 +38,36 @@ const CardQuestion = ({subjectId, card, handleNewQuestion}) => {
         
         let questionObj = questionCard();
 
-        if(questionObj.question == '' || questionObj.answer == '' || questionObj.answer == 'Put your answer here!!'){
+        if(questionObj.question === '' || questionObj.answer === '' || questionObj.answer === 'Put your answer here!!'){
             setShowError(true)
             return false;
         }
 
-       //console.log(questionObj)
        createNewQuestion(questionObj);
     }
 
     const createNewQuestion = (questionObj) => {
         createQuestion(questionObj).then(response => {          
-          //  console.log(response);
             handleNewQuestion('success');
           }).catch((error) => {
             handleNewQuestion('error');
-          //  console.log(error);
         }) ;;
     }
 
     const handleChangeQuestion = (e) => {
         setShowError(false)
         setQuestion(e.target.value)
+    }
+
+    const handleDelete = () => {
+        if(window.confirm("Are you sure want to delete this question?") === true){
+            deleteQuestion(card.id).then(response => {
+                handleNewQuestion('success');
+            }).catch((error) => {
+                console.log(error);
+                handleNewQuestion('error');
+            })
+        }     
     }
   
     return(
@@ -116,8 +123,8 @@ const CardQuestion = ({subjectId, card, handleNewQuestion}) => {
                         
                     <Button primary onClick={handleSubmit}>Submit</Button>
                     {
-                        card != null && card.id != undefined && (
-                            <Button secondary onClick={handleSubmit} >Delete</Button>
+                        card !== null && card.id !== undefined && (
+                            <Button secondary onClick={handleDelete} >Delete</Button>
                         )             
                     }
                    

@@ -1,12 +1,12 @@
 import React, { useState} from 'react'
 import "../statics/css/components/ItemCardStyle.css";
 import Modal from 'react-bootstrap/Modal';
-import {Button, Icon} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 import CardQuestion from "./CardQuestion"
 
 
 
-const ItemCard = ({card}) => {
+const ItemCard = ({card, handleNewQuestion}) => {
     const [showCardModal, setShowCardModal] = useState(false);
 
     const handleShowCardModal = () => setShowCardModal(true);
@@ -42,10 +42,10 @@ const ItemCard = ({card}) => {
                   <Modal.Title>Card Question</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <CardQuestion card={card}/>
+                  <CardQuestion card={card} handleNewQuestion={handleNewQuestion}/>
               </Modal.Body>
               <Modal.Footer>
-                  <Button color="red" onClick={handleClose}>
+                  <Button color="red" onClick={handleClose} >
                       Close
                   </Button>
               </Modal.Footer>

@@ -13,7 +13,6 @@ import {deleteSubject, getById} from "../services/components/ItemSubjectService"
 import FullScreenLoader from "../components/FullScreenLoader"
 
 const  ItemSubject = ({subject, subjectIndex}) => {
-  const [open, setOpen] = useState(false);
   const [showCardModal, setShowCardModal] = useState(false);
   const [fullScreenLoader, setFullScreenLoader] = useState(false);
   const [cardQuestions, setCardQuestions] = useState([])
@@ -34,7 +33,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
       }
   }
 
-  const handleNewQuestion = (status) => {
+  const  handleNewQuestion = (status) => {
      setFullScreenLoader(true);
      if(status === 'success'){
       handleClose();  
@@ -61,7 +60,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
         return (
             <div>
             {
-                cardQuestions.map((item , index) => <ItemCard key={index} card={item} ></ItemCard>)
+                cardQuestions.map((item , index) => <ItemCard key={index} card={item} handleNewQuestion={handleNewQuestion}></ItemCard>)
             }                   
           </div>
         )
