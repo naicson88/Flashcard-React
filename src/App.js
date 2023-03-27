@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage'
 import FolderPage from './pages/FolderPage';
 import FolderDetails from './pages/FolderDetails';
+import AnswerPage from './pages/AnswerPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/home" component={HomePage} /> 
               <Route path="/folder" exact component={FolderPage} /> 
               <Route path="/folder/details" component={FolderDetails} /> 
+              <Route path="/answer" component={AnswerPage} /> 
           </Switch>
         </div>       
      </Router>

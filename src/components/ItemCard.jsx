@@ -33,6 +33,11 @@ const ItemCard = ({card, handleNewQuestion}) => {
         }
     }
 
+    const handleCloseItemCard = () => {
+        handleClose();  
+        handleNewQuestion('success');
+    }
+
     return(
         <div className="div-list">
             {verifyCard()}
@@ -42,7 +47,7 @@ const ItemCard = ({card, handleNewQuestion}) => {
                   <Modal.Title>Card Question</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <CardQuestion card={card} handleNewQuestion={handleNewQuestion}/>
+                  <CardQuestion card={card} handleNewQuestion={handleCloseItemCard}/>
               </Modal.Body>
               <Modal.Footer>
                   <Button color="red" onClick={handleClose} >

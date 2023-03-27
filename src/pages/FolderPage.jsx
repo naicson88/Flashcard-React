@@ -78,14 +78,16 @@ const FolderPage = () => {
     const removeFolder = (e, index) => {
       //  setFullScreenLoader(true)
         let folderId = e.target.parentNode.parentNode.id;
-        deleteFolder(folderId).then(response => {   
-            folders.splice(folders.findIndex(f => f.id === folderId), 1);
-         //   setFullScreenLoader(false);
-            getFolderList();
-        }).catch((error) => {
-            console.log(error)
-          //  setFullScreenLoader(false)
-        }) ;;
+        if(window.confirm("Are you sure want to delete this Folder and ALL Questions?") === true){
+            deleteFolder(folderId).then(response => {   
+                folders.splice(folders.findIndex(f => f.id === folderId), 1);
+             //   setFullScreenLoader(false);
+                getFolderList();
+            }).catch((error) => {
+                console.log(error)
+              //  setFullScreenLoader(false)
+            }) ;;
+        }    
     }
 
     const editFolderBtn = (e, index) => {
@@ -118,7 +120,7 @@ const FolderPage = () => {
 
     return (
         <div>
-             <Navbar/>
+             <Navbar activeItem={'folder'}/>
 
             <Container className="content">
               

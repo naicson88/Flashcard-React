@@ -4,13 +4,14 @@ import React, {useState, useEffect} from 'react'
 import Accordion from 'react-bootstrap/Accordion';
 import "../statics/css/components/ItemSubjectStyle.css";
 import ItemCard from './ItemCard';
-import {Button, Icon} from 'semantic-ui-react'
+import {Button, Icon, Checkbox} from 'semantic-ui-react'
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
 import CardQuestion from "./CardQuestion"
 import {deleteSubject, getById} from "../services/components/ItemSubjectService"
 import FullScreenLoader from "../components/FullScreenLoader"
+
 
 const  ItemSubject = ({subject, subjectIndex}) => {
   const [showCardModal, setShowCardModal] = useState(false);
@@ -28,7 +29,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
   const removeSubject = () => {
       if(window.confirm("Are SURE you want delete entire Subject?") === true) {
         deleteSubject(subject.id).then(response => {
-            console.log(response)
+          window.location.reload();
         })
       }
   }
@@ -70,7 +71,10 @@ const  ItemSubject = ({subject, subjectIndex}) => {
       { fullScreenLoader && (<FullScreenLoader/>)}
       <Accordion defaultActiveKey={['0']} alwaysOpen >
         <Accordion.Item eventKey={subjectIndex} >
-          <Accordion.Header > <b>{subject.name}</b> </Accordion.Header>
+          <Accordion.Header > 
+            <Checkbox label='Make my profile visible' />
+            <b>{subject.name}</b> 
+          </Accordion.Header>
           <Accordion.Body >
             <div className='div-color-label'>
               <OverlayTrigger
