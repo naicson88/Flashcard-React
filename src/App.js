@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage'
 import FolderPage from './pages/FolderPage';
 import FolderDetails from './pages/FolderDetails';
 import AnswerPage from './pages/AnswerPage';
+import ToDoPage from './pages/ToDoPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/folder" exact component={FolderPage} /> 
               <Route path="/folder/details" component={FolderDetails} /> 
               <Route path="/answer" component={AnswerPage} /> 
+              <Route path="/todo" component={ToDoPage} /> 
           </Switch>
         </div>       
      </Router>

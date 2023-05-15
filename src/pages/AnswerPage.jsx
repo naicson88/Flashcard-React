@@ -28,9 +28,7 @@ const AnswerPage = () => {
                     </div>
                 </div>
 
-            </Container>
-              
-        
+            </Container>  
         </>
     )
 }

@@ -1,0 +1,89 @@
+:root {
+    --color-border: solid thin silver;;
+  }
+
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid red thin;
+    flex-direction: column;
+}
+
+.week-div{
+    width: 100%;
+    border: var(--color-border);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+table {
+    width: 100%;
+    table-layout: fixed
+    
+}
+.th-days{
+
+    height: 35px;
+    text-align: center;
+    border-right: var(--color-border);
+    border-bottom: var(--color-border);
+    padding: 2px;
+}
+
+.th-days i {
+    float: right;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    margin-left: -5%;
+}
+
+.th-days i:hover{
+    color: black
+}
+
+tbody {
+    min-height: 200px;
+
+}
+
+tbody td {
+    border: var(--color-border)
+}
+
+tbody td ul {
+   
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+
+
+.div-card-li {
+    border: solid thin red;
+    border-radius: 3px;
+    height: fit-content;
+    align-items: center;
+    margin-top: 5px;
+    word-break: break-word;
+    /* From https://css.glass */
+    background: rgba(44, 126, 107, 0.16);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.9px);
+    -webkit-backdrop-filter: blur(3.9px);
+    border: 1px solid rgba(44, 126, 107, 0.3);
+   
+}
+
+.div-card-li i {
+    position: absolute;
+    right: 0;
+
+    bottom: 1vh;
+
+}

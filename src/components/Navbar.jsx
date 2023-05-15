@@ -29,6 +29,11 @@ const  Navbar = ({activeItem}) => {
               active={activeItem === "answer"}
               onClick={ () => {handleRedirect('/answer')}}
             />
+            <Menu.Item
+              name="todo"
+              active={activeItem === "todo"}
+              onClick={ () => {handleRedirect('/todo')}}
+            />
             <Menu.Item>
               <Input icon="search" placeholder="Search..." />
             </Menu.Item>
