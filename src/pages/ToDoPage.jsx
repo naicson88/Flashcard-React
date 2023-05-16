@@ -3,18 +3,26 @@ import Navbar from "../components/Navbar";
 import Title from "../components/Title";
 import './../statics/css/pages/HomePageStyle.css'
 import './../statics/css/pages/ToDoStyle.css'
+import {getToDo} from "../services/pages/ToDoService"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { Icon } from 'semantic-ui-react'
 
 const ToDoPage = () => {
 
-    const DaysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY','SUNDAY' ];
+
+    const DaysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY','SUNDAY' ]; // NÃO MUDAR ORDEM
     const DaysColors = ['#DA70D6', '#F08080', '#228B22', '#4682B4', '#2F4F4F', '#556B2F', '#FF4500']
 
-    const listTasks = ['TESTE', ' TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE sdasadasdasdasdasdasdasdas']
+    const [todoObj, setTodoObj] = React.useState({})
+
+    const [listTasks, setListTask] = React.useState([])
 
     const [taskOrder, setTaskOrder] = React.useState(listTasks)
+    
+    React.useEffect(() => {
+        handleGetToDo();
+      }, []);
 
     const handleOnDragEnd = (result) => {
         const items = Array.from(taskOrder);
@@ -27,6 +35,15 @@ const ToDoPage = () => {
     const handleRemoveTask = (day, index) => {
         alert('click')
         console.log(day + ' - ' + index);
+    }
+
+    const handleGetToDo = () => {
+         getToDo().then( todo =>{
+            setTodoObj(todo);
+            setListTask(todo['dailyTasks'])
+            setTaskOrder(todo.data.dailyTasks)
+            console.log(taskOrder);
+        })
     }
 
     // window.addEventListener('click', (event) => {
@@ -59,31 +76,36 @@ const ToDoPage = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                                {taskOrder.map((taskObj, i) => {
+                                  return (
+                                    <td>
                                      <DragDropContext onDragEnd={handleOnDragEnd}>
                                         <Droppable droppableId="droppable-tasks">
-                                           {(provided) => (
+                                            {(provided) => (
                                             <ul className="tasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                                { taskOrder.map((task, index) => {
-                                                        return (
-                                                            <Draggable  key={index} draggableId={index.toString()} index={index}  >
-                                                            {(provided) => (
-                                                                <li className="div-card-li" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                                    {task}
-                                                                    <div onClick={(event) => { event.preventDefault(); handleRemoveTask('MONDAY', index)}}>
-                                                                        <Icon disabled name='trash' title="Add New Task" />                                       
-                                                                    </div> 
-                                                                       </li>                                        
-                                                            )}
-                                                            </Draggable>
-                                                        )
-                                                    })}
+                                                { taskObj['tasks'].map((task, index) => {
+                                                    return (
+                                                        <Draggable  key={index} draggableId={index.toString()} index={index} >
+                                                        {(provided) => (
+                                                            <li className="div-card-li" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                {task}
+                                                                <div onClick={(event) => { event.preventDefault(); handleRemoveTask(taskObj.day, index)}}>
+                                                                    <Icon disabled name='trash' title="Add New Task" />                                       
+                                                                </div> 
+                                                            </li>                                        
+                                                        )}
+                                                        </Draggable>
+                                                    )
+                                                })}
                                                 {provided.placeholder}
                                             </ul>
-                                           )}
+                                            )}
                                         </Droppable>                                          
                                     </DragDropContext> 
-                                </td>
+                                 </td>
+                                  )
+                                })}
+                                
                             </tr>
                         </tbody>
                     </table>
