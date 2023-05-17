@@ -4,6 +4,10 @@ import interceptor from "../AxiosInterceptor"
         return await interceptor.get("/todo/get-todo")
      }
 
+     export const updateToDo = async (day, task) => {
+      return await interceptor.put(`/todo/update-todo?day=${day}`, task);
+     }
+
     //  export const saveNewFolder = async (folderName, description) => {
     //      const f = {
     //                 name: folderName,

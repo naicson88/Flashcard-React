@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Title from "../components/Title";
 import './../statics/css/pages/HomePageStyle.css'
 import './../statics/css/pages/ToDoStyle.css'
-import {getToDo} from "../services/pages/ToDoService"
+import {getToDo, updateToDo} from "../services/pages/ToDoService"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { Icon } from 'semantic-ui-react'
@@ -46,14 +46,17 @@ const ToDoPage = () => {
         })
     }
 
-    // window.addEventListener('click', (event) => {
-    //     // event has already been used for drag and drop
-    //     if (event.defaultPrevented) {
-    //       return;
-    //     }
-      
-    //     handleRemoveTask();
-    //   });
+    const handleAddTask = (day) => {
+        let obj = {
+            'classColor':"color-5",'name': "First Task Added dinamicaly"
+        }
+
+        updateToDo(day, obj).then(todo => {
+            setListTask(todo['dailyTasks'])
+            setTaskOrder(todo.data.dailyTasks)
+            console.log(taskOrder);
+        })
+    }
 
     return (
         <div>
@@ -69,7 +72,10 @@ const ToDoPage = () => {
                             {DaysOfWeek.map((day, index) => 
                                     <th 
                                         className="th-days" style={{color: DaysColors[index].toString()}} >{day} 
-                                        <Icon disabled name='add square' size='large' title="Add New Task" />
+                                        <span onClick={() => {handleAddTask(day)}}>
+                                            <Icon disabled name='add square' size='large' title="Add New Task" />
+                                        </span>
+                                       
                                     </th>
                                 )}
                             </tr>                     
@@ -87,8 +93,8 @@ const ToDoPage = () => {
                                                     return (
                                                         <Draggable  key={index} draggableId={index.toString()} index={index} >
                                                         {(provided) => (
-                                                            <li className="div-card-li" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                                {task}
+                                                            <li className={'div-card-li ' + task.classColor} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                {task.name}
                                                                 <div onClick={(event) => { event.preventDefault(); handleRemoveTask(taskObj.day, index)}}>
                                                                     <Icon disabled name='trash' title="Add New Task" />                                       
                                                                 </div> 
