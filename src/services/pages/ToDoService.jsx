@@ -8,6 +8,10 @@ import interceptor from "../AxiosInterceptor"
       return await interceptor.put(`/todo/update-todo?day=${day}`, task);
      }
 
+     export const removeTask = async (day, index) => {
+      return await interceptor.delete(`/todo/remove-task?day=${day}&index=${index}`)
+     }
+
     //  export const saveNewFolder = async (folderName, description) => {
     //      const f = {
     //                 name: folderName,
