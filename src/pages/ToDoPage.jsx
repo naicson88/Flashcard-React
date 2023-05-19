@@ -14,6 +14,8 @@ const ToDoPage = () => {
 
     const [show, setShow] = useState(false);
     const [handleClose, setHandleClose] = useState(false);
+    const [hasTime, setHasTime]= useState(false);
+    const [dayOrigin, setDayOrigin] = useState('')
 
     const DaysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY','SUNDAY' ]; // NÃO MUDAR ORDEM
     const DaysColors = ['#DA70D6', '#F08080', '#228B22', '#4682B4', '#2F4F4F', '#556B2F', '#FF4500']
@@ -53,14 +55,34 @@ const ToDoPage = () => {
     }
 
     const handleAddTask = (day) => {
+        setDayOrigin(day);
         setShow(true)
-        // let obj = {
-        //     'classColor':"color-5",'name': "First Task Added dinamicaly"
-        // }
-        // updateToDo(day, obj).then(todo => {
-        //     setListTask(todo['dailyTasks'])
-        //     setTaskOrder(todo.data.dailyTasks)
-        // })
+    }
+
+    const handleSaveTask = () => {
+        var {task, color, appt} = document.forms[0]
+
+        if(task.value === '' || task.value.length == 0){
+            alert('Task cannot be empty')
+            return false;
+        }
+
+        let newTask = {
+            name : task.value,
+            classColor : color.value,
+            time : appt.value
+        }
+        
+        setShow(false);
+
+        updateToDo(dayOrigin, newTask).then(todo => {
+            setListTask(todo['dailyTasks'])
+            setTaskOrder(todo.data.dailyTasks)
+        })
+    }
+
+    const handleHasTime = () => {
+        setHasTime(current => !current);
     }
 
     return (
@@ -102,10 +124,16 @@ const ToDoPage = () => {
                                                                 {task.name}
 
                                                                 <div className="task-icons">
-                                                                  <div>
-                                                                     <Icon disabled name=' clock  ' title="Remove Task" className="clock"/>
-                                                                     <span style={{color: 'gray', fontSize: 'smaller'}}>19:30</span> 
-                                                                    </div>                                                                 
+                                                                  
+                                                                    <div>{task.time && (
+                                                                        <div>
+                                                                        <Icon disabled name=' clock  ' title="Remove Task" className="clock"/>
+                                                                        <span style={{color: 'gray', fontSize: 'smaller'}}>{task.time}</span> 
+                                                                        </div>
+                                                                        )}
+                                                                    </div>  
+                                                                  
+                                                                                                                                 
                                                                    <div  onClick={(event) => { handleRemoveTask(taskObj.day, index)}} >
                                                                      <Icon disabled name='trash' title="Remove Task" className="trash" />
                                                                    </div>                                                                                                                                                                                                                                       
@@ -144,27 +172,33 @@ const ToDoPage = () => {
                             <div className="input-container">
                                 <label>Card Color</label>
                                <select name="color" id="" class="form-control">
-                                 <option value="a"> color 1</option>
-                                 <option value="b"> color 2</option>
+                                 <option value="color-1" style={{background: ' rgba(44, 126, 107, 0.16)'}}> Color 1</option>
+                                 <option value="color-2" style={{background: ' rgba(242, 130, 123, 0.2)'}}> Color 2</option>
+                                 <option value="color-3" style={{background: ' rgba(123, 128, 242, 0.2)'}}> Color 3</option>
+                                 <option value="color-4" style={{background: ' rgba(123, 242, 138, 0.2)'}}> Color 4</option>
+                                 <option value="color-5" style={{background: ' rgba(246, 241, 70, 0.2)'}}> Color 5</option>
+                        
                                </select>
                             </div>
                             <div className="input-container">
-                            <label class="form-check-label" for="defaultCheck1">
-                               Has Time
-                            </label>
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                            
-                            <label for="appt">Choose a time:</label>
-
-                            <input type="time" id="appt" name="appt" min="00:00" max="24:00" style={{width: '20%'}}></input>
-                            </div>
+                                <label for="appt">Time (Optional):</label>
+        
+                                <input 
+                                    type="time" 
+                                    id="appt" 
+                                    name="appt" 
+                                    min="00:00" 
+                                    max="24:00" 
+                                    placeholder="15:45" 
+                                    style={{width: '20%'}} />
+                             </div>
                         </form>                   
                 </Modal.Body>
                 <Modal.Footer>
                     <Button color="red" onClick={() => {setShow(false)}}>
                         Close
                     </Button>
-                    <Button color="green">
+                    <Button color="green" onClick={handleSaveTask}>
                         Save Task
                     </Button>
                 </Modal.Footer>
