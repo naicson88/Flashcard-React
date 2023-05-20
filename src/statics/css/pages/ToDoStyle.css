@@ -20,7 +20,8 @@
 }
 table {
     width: 100%;
-    table-layout: fixed
+    table-layout: fixed;
+
     
 }
 .th-days{
@@ -50,6 +51,7 @@ tbody {
 
 tbody td {
     border: var(--color-border);
+    vertical-align: baseline;
 }
 
 tbody td ul {
@@ -67,7 +69,8 @@ tbody td ul {
     min-height: 30px;
     height: fit-content;
     align-items: center;
-    margin-top: 5px;
+
+    margin-bottom: 2vh;
     word-break: break-word;
     font-weight: 600;
     padding: 3px;
@@ -95,12 +98,12 @@ tbody td ul {
 
 .div-card-li.color-4 {
     background: rgba(123, 242, 138, 0.2);
-    border: 1px solid rgba(123, 242, 138, 0.71);
+    border: 1px solid rgba(104, 207, 117, 0.71);
 }
 
 .div-card-li.color-5 {
-    background: rgba(246, 241, 70, 0.2);
-    border: 1px solid rgba(246, 241, 70, 0.3);
+    background: rgba(252, 239, 54, 0.2);
+    border: 1px solid rgba(148, 140, 33, 0.3);
 }
 
 .task-icons {

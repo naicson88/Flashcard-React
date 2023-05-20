@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import './../statics/css/pages/HomePageStyle.css'
 import './../statics/css/pages/ToDoStyle.css'
 import Modal from 'react-bootstrap/Modal';
-import {Button, Container, Loader, Popup } from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 import {getToDo, removeTask, updateToDo} from "../services/pages/ToDoService"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -31,11 +31,26 @@ const ToDoPage = () => {
       }, []);
 
     const handleOnDragEnd = (result) => {
-        const items = Array.from(taskOrder);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
 
-        setTaskOrder(items);
+        const {destination, source, draggableId} = result;
+
+        if(!destination){return;}
+
+        if(destination.droppableId === source.droppableId && destination.index === source.index){return;}
+
+        const start = taskOrder.find(t => t.id === source.droppableId);
+        const finish = taskOrder.find(t => t.id === destination.droppableId);
+
+        //SAME COLUMN
+        if(start.id === finish.id){
+            const tasks = start.tasks;
+            const [reorderedItem] = tasks.splice(source.index, 1);
+            tasks.splice(destination.index, 0, reorderedItem);
+        }
+        
+
+        // TO ANOTHER COLUMN
+
     }
 
     const handleRemoveTask = (day, index) => {
@@ -110,17 +125,27 @@ const ToDoPage = () => {
                         <tbody>
                             <tr>
                                 {taskOrder.map((taskObj, i) => {
-                                  return (
-                                    <td>
+                                 return (                                 
                                      <DragDropContext onDragEnd={handleOnDragEnd}>
-                                        <Droppable droppableId="droppable-tasks">
-                                            {(provided) => (
-                                            <ul className="tasks" {...provided.droppableProps} ref={provided.innerRef}>
+                                          <td>
+                                        <Droppable droppableId={taskObj.id}>
+                                            {(provided, snapshot) => (
+                                            <ul className="tasks" 
+                                               {...provided.droppableProps} 
+                                               ref={provided.innerRef}
+                                                isDraggingOver={snapshot.isDraggingOver}
+                                                 >
                                                 { taskObj['tasks'].map((task, index) => {
                                                     return (
                                                         <Draggable  key={index} draggableId={index.toString()} index={index} >
-                                                        {(provided) => (
-                                                            <li className={'div-card-li ' + task.classColor} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                        {(provided, snapshot) => (
+                                                            <li className={'div-card-li ' + task.classColor}
+                                                                isDraggingOver={snapshot.isDraggingOver} 
+                                                                ref={provided.innerRef} 
+                                                                {...provided.draggableProps} 
+                                                                {...provided.dragHandleProps}
+                                                                isDragging={snapshot.isDragging}
+                                                                    >
                                                                 {task.name}
 
                                                                 <div className="task-icons">
@@ -147,9 +172,10 @@ const ToDoPage = () => {
                                                 {provided.placeholder}
                                             </ul>
                                             )}
-                                        </Droppable>                                          
+                                        </Droppable>     
+                                        </td>                                     
                                     </DragDropContext> 
-                                 </td>
+                               
                                   )
                                 })}
                                 
