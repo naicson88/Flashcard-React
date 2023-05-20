@@ -31,7 +31,6 @@ const ToDoPage = () => {
       }, []);
 
     const handleOnDragEnd = (result) => {
-
         const {destination, source, draggableId} = result;
 
         if(!destination){return;}
@@ -42,13 +41,24 @@ const ToDoPage = () => {
         const finish = taskOrder.find(t => t.id === destination.droppableId);
 
         //SAME COLUMN
-        if(start.id === finish.id){
-            const tasks = start.tasks;
+        if(start.id === finish.id) {    
+            const tasks = Array.from(taskOrder.find(t => t.id === start.id)['tasks'])
             const [reorderedItem] = tasks.splice(source.index, 1);
             tasks.splice(destination.index, 0, reorderedItem);
+            taskOrder.find(t => t.id === start.id)['tasks'] = tasks;
+            setTaskOrder(taskOrder);
+        } 
+        else {
+            
+            const tasks = Array.from(taskOrder.find(t => t.id === start.id)['tasks'])
+            const [reorderedItem] = tasks.splice(source.index, 1);
+            taskOrder.find(t => t.id === finish.id)['tasks'].splice(destination.index, 0, reorderedItem);
+            //taskOrder.find(t => t.id === finish.id)['tasks'] = tasks;
+            taskOrder.find(t => t.id === start.id)['tasks'].splice(source.index, 1)
+            setTaskOrder(taskOrder);
+
         }
         
-
         // TO ANOTHER COLUMN
 
     }
@@ -123,21 +133,22 @@ const ToDoPage = () => {
                             </tr>                     
                         </thead>
                         <tbody>
+                        <DragDropContext onDragEnd={handleOnDragEnd}>
                             <tr>
+                            
                                 {taskOrder.map((taskObj, i) => {
-                                 return (                                 
-                                     <DragDropContext onDragEnd={handleOnDragEnd}>
-                                          <td>
+                                  return (
+                                                                     
+                                    <td>
                                         <Droppable droppableId={taskObj.id}>
                                             {(provided, snapshot) => (
                                             <ul className="tasks" 
                                                {...provided.droppableProps} 
                                                ref={provided.innerRef}
-                                                isDraggingOver={snapshot.isDraggingOver}
                                                  >
                                                 { taskObj['tasks'].map((task, index) => {
                                                     return (
-                                                        <Draggable  key={index} draggableId={index.toString()} index={index} >
+                                                        <Draggable  key={task.id} draggableId={task.id} index={index} >
                                                         {(provided, snapshot) => (
                                                             <li className={'div-card-li ' + task.classColor}
                                                                 isDraggingOver={snapshot.isDraggingOver} 
@@ -146,7 +157,7 @@ const ToDoPage = () => {
                                                                 {...provided.dragHandleProps}
                                                                 isDragging={snapshot.isDragging}
                                                                     >
-                                                                {task.name}
+                                                                {task.id}
 
                                                                 <div className="task-icons">
                                                                   
@@ -174,12 +185,13 @@ const ToDoPage = () => {
                                             )}
                                         </Droppable>     
                                         </td>                                     
-                                    </DragDropContext> 
+                                   
                                
                                   )
                                 })}
-                                
+                               
                             </tr>
+                            </DragDropContext> 
                         </tbody>
                     </table>
                 </div>
