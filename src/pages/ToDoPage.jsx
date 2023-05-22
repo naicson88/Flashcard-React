@@ -5,7 +5,7 @@ import './../statics/css/pages/HomePageStyle.css'
 import './../statics/css/pages/ToDoStyle.css'
 import Modal from 'react-bootstrap/Modal';
 import {Button} from 'semantic-ui-react'
-import {getToDo, removeTask, updateToDo} from "../services/pages/ToDoService"
+import {getToDo, removeTask, updateToDo, updateDailyTasks} from "../services/pages/ToDoService"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { Icon } from 'semantic-ui-react'
@@ -14,7 +14,6 @@ const ToDoPage = () => {
 
     const [show, setShow] = useState(false);
     const [handleClose, setHandleClose] = useState(false);
-    const [hasTime, setHasTime]= useState(false);
     const [dayOrigin, setDayOrigin] = useState('')
 
     const DaysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY','SUNDAY' ]; // NÃO MUDAR ORDEM
@@ -48,19 +47,28 @@ const ToDoPage = () => {
             taskOrder.find(t => t.id === start.id)['tasks'] = tasks;
             setTaskOrder(taskOrder);
         } 
-        else {
-            
+           // TO ANOTHER COLUMN
+        else {           
             const tasks = Array.from(taskOrder.find(t => t.id === start.id)['tasks'])
             const [reorderedItem] = tasks.splice(source.index, 1);
             taskOrder.find(t => t.id === finish.id)['tasks'].splice(destination.index, 0, reorderedItem);
             //taskOrder.find(t => t.id === finish.id)['tasks'] = tasks;
             taskOrder.find(t => t.id === start.id)['tasks'].splice(source.index, 1)
             setTaskOrder(taskOrder);
-
         }
         
-        // TO ANOTHER COLUMN
+        handleUpdateDailyTasks();
+        
+    }
 
+    const handleUpdateDailyTasks = () => {
+        updateDailyTasks(taskOrder).then(todo => {
+            setTodoObj(todo);
+            setListTask(todo['dailyTasks'])
+            setTaskOrder(todo.data.dailyTasks);
+        }, err => {
+            window.location.reload(false);
+        })
     }
 
     const handleRemoveTask = (day, index) => {
@@ -75,7 +83,7 @@ const ToDoPage = () => {
             setTodoObj(todo);
             setListTask(todo['dailyTasks'])
             setTaskOrder(todo.data.dailyTasks)
-            console.log(taskOrder);
+            console.log(JSON.stringify(todo.data, null, 2));
         })
     }
 
@@ -106,9 +114,7 @@ const ToDoPage = () => {
         })
     }
 
-    const handleHasTime = () => {
-        setHasTime(current => !current);
-    }
+
 
     return (
         <div>
@@ -140,6 +146,7 @@ const ToDoPage = () => {
                                   return (
                                                                      
                                     <td>
+                                        
                                         <Droppable droppableId={taskObj.id}>
                                             {(provided, snapshot) => (
                                             <ul className="tasks" 
@@ -157,7 +164,7 @@ const ToDoPage = () => {
                                                                 {...provided.dragHandleProps}
                                                                 isDragging={snapshot.isDragging}
                                                                     >
-                                                                {task.id}
+                                                                {task.name}
 
                                                                 <div className="task-icons">
                                                                   
@@ -167,8 +174,7 @@ const ToDoPage = () => {
                                                                         <span style={{color: 'gray', fontSize: 'smaller'}}>{task.time}</span> 
                                                                         </div>
                                                                         )}
-                                                                    </div>  
-                                                                  
+                                                                    </div>                                                                 
                                                                                                                                  
                                                                    <div  onClick={(event) => { handleRemoveTask(taskObj.day, index)}} >
                                                                      <Icon disabled name='trash' title="Remove Task" className="trash" />
@@ -195,6 +201,53 @@ const ToDoPage = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <section className="current-tasks">
+
+                    <div className="cur-todo-column">
+                        <div className="cur-todo-header">
+                            <h3>Todo</h3>
+                        </div>
+
+                        <div className="cur-todo-body">
+
+                          <div className="textarea-div">
+                             <textarea name="" id=""  rows="4" ></textarea>
+                          </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <div className="cur-todo-column">
+
+                        <div className="cur-todo-header">
+                            <h3>Doing</h3>
+                        </div>
+
+                        <div className="cur-todo-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                        </div>
+                    </div>
+                    
+                    <div className="cur-todo-column">
+                        <div className="cur-todo-header">
+                         <h3>Done</h3>
+                        </div>
+                        
+                        <div className="cur-todo-body">
+                           
+                        </div>
+                    </div>
+                </section>
                 
             </div>
             <Modal show={show} onHide={handleClose}>

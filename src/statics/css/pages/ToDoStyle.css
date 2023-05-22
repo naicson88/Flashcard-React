@@ -6,8 +6,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid red thin;
     flex-direction: column;
+    border: none
 }
 
 .week-div{
@@ -21,7 +21,6 @@
 table {
     width: 100%;
     table-layout: fixed;
-
     
 }
 .th-days{
@@ -46,7 +45,6 @@ table {
 
 tbody {
     min-height: 200px;
-
 }
 
 tbody td {
@@ -64,7 +62,6 @@ tbody td ul {
 }
 
 .div-card-li {
-    border: solid thin red;
     border-radius: 3px;
     min-height: 30px;
     height: fit-content;
@@ -116,3 +113,35 @@ form label {
     font-weight: 700;
 }
 
+.current-tasks {
+    border: solid thin red;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px;
+}
+
+.cur-todo-column{
+    border: solid thin blue;
+    width: 30%;
+
+}
+
+.cur-todo-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #e7e9eb;
+    vertical-align: middle;
+    height: 36px;
+}
+
+textarea {
+    width: 90%;
+}
+
+.textarea-div {
+    width: 100%;
+    margin-left: 5%;
+    margin-top: 3vh;
+}
