@@ -215,9 +215,9 @@ const ToDoPage = () => {
                              <textarea name="" id=""  rows="4" ></textarea>
                           </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
+                                <li class="list-group-item list-group-item-action list-group-item-light">Cras justo odio</li>
+                                <li class="list-group-item list-group-item-action list-group-item-light">Dapibus ac facilisis in</li>
+                                <li class="list-group-item list-group-item-action list-group-item-light">Vestibulum at eros</li>
                             </ul>
 
                         </div>
@@ -231,9 +231,9 @@ const ToDoPage = () => {
 
                         <div className="cur-todo-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item list-group-item-action list-group-item-warning">Cras justo odio</li>
+                            <li class="list-group-item list-group-item-action list-group-item-warning">Dapibus ac facilisis in</li>
+                            <li class="list-group-item list-group-item-action list-group-item-warning">Vestibulum at eros</li>
                         </ul>
                         </div>
                     </div>
@@ -244,7 +244,11 @@ const ToDoPage = () => {
                         </div>
                         
                         <div className="cur-todo-body">
-                           
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item list-group-item-action list-group-item-success">Cras justo odio</li>
+                                <li class="list-group-item list-group-item-action list-group-item-success">Dapibus ac facilisis in</li>
+                                <li class="list-group-item list-group-item-action list-group-item-success">Vestibulum at eros</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
