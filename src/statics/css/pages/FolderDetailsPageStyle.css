@@ -35,3 +35,11 @@
     justify-content: center;
     margin: 60px 0 20px 0;
 }
+
+.div-buttons-subjects{
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-bottom: 2vh;
+}

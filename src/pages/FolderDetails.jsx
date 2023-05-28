@@ -2,7 +2,7 @@ import  { React, useState, useEffect, } from "react";
 import Title from "../components/Title";
 import Navbar from "../components/Navbar";
 import {getFolderById, saveSubject} from "../services/pages/FolderDetailsPageService.jsx"
-import {Button, Container, Loader} from 'semantic-ui-react'
+import {Button, Container, Loader, Checkbox} from 'semantic-ui-react'
 import './../statics/css/pages/FolderDetailsPageStyle.css'
 import  ItemSubject from "../components/ItemSubject";
 import Modal from 'react-bootstrap/Modal';
@@ -19,6 +19,7 @@ const FolderDetails = () => {
     const [showToastr, setShowToastr] = useState(false);
     const [toastrObject, setToastrObj] = useState({})
     const [saveShow, setSaveShow] = useState('form');
+    const [isSelectAll, setIsSelectAll] = useState(false)
 
     const handleClose = () => { setShowNewSubject(false);}
     const handleShowNewSubject = () =>  setShowNewSubject(true);
@@ -71,6 +72,26 @@ const FolderDetails = () => {
         }, "5000");
     }
 
+    const handleAnswer = () => {
+        let dto = {
+            folderId: folderObj.id,
+            subject: []
+        }
+        let answers = document.querySelectorAll('.checkbox-answer')
+        answers.forEach(c => {          
+            if(c.classList.contains('checked')){              
+                dto.subject.push(c.firstChild.id)
+            }               
+          }); 
+    }
+
+    const handleCheckboxToggle = () => {
+        let answers = document.querySelectorAll('.checkbox-answer')
+        answers.forEach(c => {           
+            c.firstChild.checked = !c.firstChild.checked
+          });
+    }
+
     return (
             <div>
                  <Navbar/>
@@ -84,6 +105,7 @@ const FolderDetails = () => {
                          </div>
                          <div className="subject-btn-div">
                             <Button primary onClick={handleShowNewSubject}>New Subject</Button>
+                           
                          </div>
 
                             { showToastr && (
@@ -93,7 +115,15 @@ const FolderDetails = () => {
                             )}
 
                          <div className="subjects-list">
-                            {
+                           <div className="div-buttons-subjects">
+                                <Button primary onClick={handleCheckboxToggle}>
+                                    Toggle it
+                                </Button>
+                                <Button positive onClick={handleAnswer}>
+                                    Answer 
+                                </Button>     
+                            </div>          
+                            {                            
                               folderObj['subjects']?.map((subject, index) =>  <ItemSubject key={index} subject={subject} subjectIndex={index} /> )
                             }                      
                          </div>                 

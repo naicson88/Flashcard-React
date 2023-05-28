@@ -72,7 +72,7 @@ const  ItemSubject = ({subject, subjectIndex}) => {
       <Accordion defaultActiveKey={['0']} alwaysOpen >
         <Accordion.Item eventKey={subjectIndex} >
           <Accordion.Header > 
-            <Checkbox label='Make my profile visible' />
+            <Checkbox defaultChecked className='checkbox-answer' id={subject.id}/> &nbsp; &nbsp;
             <b>{subject.name}</b> 
           </Accordion.Header>
           <Accordion.Body >
